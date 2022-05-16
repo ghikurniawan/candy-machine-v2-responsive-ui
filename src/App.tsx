@@ -24,7 +24,10 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 
 import "./App.css";
-import Home from "./Home";
+import Mint from "./components/Mint";
+import { Route, Routes } from "react-router-dom";
+import { Home } from "./Home";
+import NavBar from "./components/NavBar";
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -88,16 +91,22 @@ const App = () => {
     );
 
   return (
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets} autoConnect={true}>
             <WalletModalProvider>
-              <Home
-                candyMachineId={candyMachineId}
-                connection={connection}
-                txTimeout={txTimeout}
-                rpcHost={rpcHost}
-              />
+              <NavBar/>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/mint" element={
+                  <Mint
+                    candyMachineId={candyMachineId}
+                    connection={connection}
+                    txTimeout={txTimeout}
+                    rpcHost={rpcHost}
+                    />
+                }/>
+            </Routes>
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
